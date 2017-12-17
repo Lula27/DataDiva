@@ -1,3 +1,9 @@
+body {padding-top: 70px; }
+
+
+.container-fluid {padding: 100px}
+
+
 .navbarnavbar-expand-lgnavbar-lightbg-light {
-	background-color: #F0F8FF
+	padding-bottom: 10px; 
 }
