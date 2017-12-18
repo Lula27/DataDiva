@@ -1,7 +1,9 @@
-body {padding-top: 70px; }
+body {padding-top: 50px; }
 
 
-.container-fluid {padding: 100px}
+.container-fluid {
+	 padding: 25px 50px 75px;
+}
 
 
 .navbarnavbar-expand-lgnavbar-lightbg-light {
