@@ -31,3 +31,16 @@
 .content {
 	padding: 16px;
 }
+
+/* Sticky class added to navbar with JS when it reaches its scroll position*/
+.sticky {
+	position: fixed;
+	top: 0;
+	width: 100%; 
+}
+
+
+/* Add top padding to page to prevent sudden quick movement*/
+.sticky + .content {
+	padding-top: 60px; 
+}
