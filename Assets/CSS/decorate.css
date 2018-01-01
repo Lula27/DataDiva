@@ -12,9 +12,12 @@
 */
 
 body {
-	background-color: #F8F8FF; 
+	background-color: #FFFFFF; 
 }
 
+#caption {
+	text-align: center; 
+}
 /*Style test navbar*/
 #navbar {
 	overflow: hidden;
@@ -48,4 +51,14 @@ body {
 /* Add top padding to page to prevent sudden quick movement*/
 .sticky + .content {
 	padding-top: 60px; 
+}
+
+
+/* Photo Positioning*/
+#one {
+	position: left; 
+}
+
+#two {
+	position: right;
 }
