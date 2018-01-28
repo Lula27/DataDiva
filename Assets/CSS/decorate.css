@@ -62,3 +62,8 @@ body {
 #two {
 	position: right;
 }
+
+.square {
+	width: 100px;
+	height: 100px; 
+}
