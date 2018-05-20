@@ -67,3 +67,11 @@ body {
 	width: 100px;
 	height: 100px; 
 }
+
+#info {
+	margin-left: 25px; 
+	padding-left: 25px; 
+	/*padding-right: 25px; */
+	/*margin-right: 25px; */
+
+}
