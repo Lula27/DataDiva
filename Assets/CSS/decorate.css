@@ -1,4 +1,5 @@
 
+
 body {
 	background-color: #FFFFFF; 
 }
@@ -68,9 +69,15 @@ body {
 	margin-left: 25px; 
 }
 
+/*my picture edits*/
+#lore{ 
+border-radius: 50%; 
+ } 
 
-/*Drop down*/
-.dropdown {
-	float: left;
-	overflow: hidden;
+#home{
+	background-image: url("C:\\Users\\loret\\Desktop\\Coding\\DataDiva\\Assets\\images\\moviecount.jpg")
+}
+
+#story{
+	color: white; 
 }
