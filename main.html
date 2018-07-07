@@ -42,7 +42,7 @@
     <div id="p1">
     <h4><a href="https://digitalcommons.butler.edu/bjur/vol3/iss1/2/" target="_blank">Published Development Economics Research</a></h4>
     <h5>Women’s Work: Labor Market Outcomes and Female Entrepreneurship in Ghana</h5>
-    <p>While working towards my undergraduate degrees at the University of Pittsburgh - a Bachelor of Science in Economics and a Bachelor of Arts in Political Science as well as certificates in African Studies, Latin American Studies and Global Studies - I designed and executed in field research in my country of birth, Ghana. Although I'm a naturalized US citizen, I have had a long cultivated love for my first country. Hearing stories about about my entrepreneural grandmothers inspired me to conduct and publish rigorous interdisciplinary resarch (including regression analysis with R).</p>
+    <p>While working towards completing my undergraduate degrees at the University of Pittsburgh - a Bachelor of Science in Economics and a Bachelor of Arts in Political Science as well as certificates in African Studies, Latin American Studies and Global Studies - I designed and executed in field research in my country of birth, Ghana. Although I'm a naturalized US citizen, I have had a long cultivated love for my first country. Hearing stories about about my entrepreneural grandmothers inspired me to conduct and publish rigorous interdisciplinary resarch (including regression analysis with R).</p>
     
     <h4 style="color: blue"> Data Science Projects</h4>
     <h5>Titanic Survival Analysis</h5>
@@ -54,7 +54,7 @@
       <li>examined the data (provided by Kaggle) in Excel</li>
       <li>figured out what features might be most useful</li>
       <li>cleaned data and conducted descriptive statistics and early analysis with Python using Jupyter Notebooks</li>
-      <li>compleated final analysis using Decision Trees in R</li>
+      <li>completed final analysis using Decision Trees in R</li>
     </ul>
 
 
@@ -204,23 +204,59 @@
 <span class="n">ORDER</span> <span class="n">BY</span> <span class="n">CompanyName</span><span class="p">;</span>
 </pre></div>
 
+<h5><u>Programming with T-SQL + Error Handling & Transactions</u></h5>
+<p><strong>Created reusable scripts that make it easy to insert sales orders and order detail.</strong></p>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">--</span> <span class="n">Declare</span> <span class="n">variables</span> 
+<span class="n">DECLARE</span> <span class="nd">@OrderDate</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">GETDATE</span><span class="p">();</span>
+<span class="n">DECLARE</span> <span class="nd">@DueDate</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">DATEADD</span><span class="p">(</span><span class="n">dd</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">GETDATE</span><span class="p">());</span>
+<span class="n">DECLARE</span> <span class="nd">@CustomerID</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">SalesOrderHeader</span> <span class="p">(</span><span class="n">OrderDate</span><span class="p">,</span> <span class="n">DueDate</span><span class="p">,</span> <span class="n">CustomerID</span><span class="p">,</span> <span class="n">ShipMethod</span><span class="p">)</span>
+<span class="n">VALUES</span> <span class="p">(</span><span class="nd">@OrderDate</span><span class="p">,</span> <span class="nd">@DueDate</span><span class="p">,</span> <span class="nd">@CustomerID</span><span class="p">,</span> <span class="s1">&#39;CARGO TRANSPORT 5&#39;</span><span class="p">);</span>
+<span class="n">DECLARE</span> <span class="nd">@OrderID</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">SCOPE_IDENTITY</span><span class="p">();</span>
 
 
+<span class="n">DECLARE</span> <span class="nd">@SalesOrderID</span> <span class="nb">int</span> 
+<span class="n">DECLARE</span> <span class="nd">@ProductID</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">760</span><span class="p">;</span>
+<span class="n">DECLARE</span> <span class="nd">@Quantity</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">DECLARE</span> <span class="nd">@UnitPrice</span> <span class="n">money</span> <span class="o">=</span> <span class="mf">782.99</span><span class="p">;</span>
 
+<span class="n">SET</span> <span class="nd">@SalesOrderID</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
 
+<span class="o">--</span> <span class="n">If</span> <span class="n">statement</span> <span class="n">to</span> <span class="n">insert</span> <span class="n">values</span> 
+<span class="n">IF</span> <span class="n">EXISTS</span> <span class="p">(</span><span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">SalesOrderHeader</span> <span class="n">WHERE</span> <span class="n">SalesOrderID</span> <span class="o">=</span> <span class="nd">@SalesOrderID</span><span class="p">)</span>
+<span class="n">BEGIN</span>
+  <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">SalesOrderDetail</span> <span class="p">(</span><span class="n">SalesOrderID</span><span class="p">,</span> <span class="n">OrderQty</span><span class="p">,</span> <span class="n">ProductID</span><span class="p">,</span> <span class="n">UnitPrice</span><span class="p">)</span>
+  <span class="n">VALUES</span> <span class="p">(</span><span class="nd">@OrderID</span><span class="p">,</span> <span class="nd">@Quantity</span><span class="p">,</span> <span class="nd">@ProductID</span><span class="p">,</span> <span class="nd">@UnitPrice</span><span class="p">)</span>
+<span class="n">END</span>
+<span class="n">ELSE</span>
+<span class="n">BEGIN</span>
+  <span class="n">PRINT</span> <span class="s1">&#39;The order does not exist&#39;</span>
+<span class="n">END</span>
+</pre></div>
 
+<p><strong>Wrote script to log errors while implementing a T-SQL script to delete orders.</strong></p>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">DECLARE</span> <span class="nd">@OrderID</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 
+<span class="o">--</span> <span class="n">Declare</span> <span class="n">a</span> <span class="n">custom</span> <span class="n">error</span> <span class="k">if</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">order</span> <span class="n">doesn</span><span class="s1">&#39;t exist</span>
+<span class="n">DECLARE</span> <span class="nd">@error</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;Order #&#39;</span> <span class="o">+</span> <span class="n">cast</span><span class="p">(</span><span class="nd">@OrderID</span> <span class="k">as</span> <span class="n">VARCHAR</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; does not exist&#39;</span><span class="p">;</span>
 
-
-
-
-
-
-
-
-
+<span class="n">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span><span class="p">(</span><span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">SalesOrderHeader</span> <span class="n">WHERE</span> <span class="n">SalesOrderID</span> <span class="o">=</span> <span class="nd">@OrderID</span><span class="p">)</span>
+<span class="n">BEGIN</span>
+  <span class="n">THROW</span> <span class="mi">50001</span><span class="p">,</span> <span class="nd">@error</span><span class="p">,</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">END</span>
+<span class="n">ELSE</span>
+<span class="n">BEGIN</span>
+  <span class="n">DELETE</span> <span class="n">FROM</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">SalesOrderDetail</span> <span class="n">WHERE</span> <span class="n">SalesOrderID</span> <span class="o">=</span> <span class="nd">@OrderID</span><span class="p">;</span>
+  <span class="n">DELETE</span> <span class="n">FROM</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">SalesOrderHeader</span> <span class="n">WHERE</span> <span class="n">SalesOrderID</span> <span class="o">=</span> <span class="nd">@OrderID</span><span class="p">;</span>
+<span class="n">END</span>
+</pre></div>
 </div>
       </section>
+      
       <section id="r">
         <h4>R</h4>
       </section>
