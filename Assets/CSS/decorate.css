@@ -86,3 +86,9 @@ padding-right: 10px;
 #story{
 	color: white; 
 }
+
+
+/*SQL part*/
+.sqlHeading{
+	text-decoration: underline;
+}

@@ -64,12 +64,101 @@
       <h2 align="center">Programming Languages</h2>
       <section id="sql">
         <h4>Structured Querying Language (SQL)</h4>
-        <p>Expertise in: </p>
+        <p><strong>Expertise in:</strong></p>
         <ul>
           <li>Relational database design and development</li>
           <li>Performing ad hoc queries, analysis and reporting</li>
           <li>Monitoring scheduled tasks in production environment to ensure successful completion</li>
         </ul>
+        <p><strong>Completed Training Material:</strong></p>
+        <ul>
+          <li><a href="https://www.microsoftpressstore.com/store/training-kit-exam-70-461-querying-microsoft-sql-server-9780735666054" target="_blank">Querying Microsoft SQL Server 2012 Exam 70-461 Training Kit</a></li>
+          <li><a href="https://www.edx.org/course/querying-data-transact-sql" target="_blank">Querying Data with Transact-SQL</a></li>
+        </ul>
+        <p><strong>Lab exercises from Querying Data with Transact-SQL</strong></p>
+<div id="sql">
+        <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5><u>Using Functions and Aggregating Data</u></h5>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Wrote query to filter the product returned so that only products with a numeric size are included.</strong></p>
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">SELECT</span> <span class="n">ProductID</span><span class="p">,</span> <span class="n">UPPER</span><span class="p">(</span><span class="n">Name</span><span class="p">)</span> <span class="n">AS</span> <span class="n">ProductName</span><span class="p">,</span> <span class="n">ROUND</span><span class="p">(</span><span class="n">Weight</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="n">AS</span> <span class="n">ApproxWeight</span><span class="p">,</span>
+       <span class="n">YEAR</span><span class="p">(</span><span class="n">SellStartDate</span><span class="p">)</span> <span class="n">AS</span> <span class="n">SellStartYear</span><span class="p">,</span>
+       <span class="n">DATENAME</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">SellStartDate</span><span class="p">)</span> <span class="n">AS</span> <span class="n">SellStartMonth</span><span class="p">,</span>
+       <span class="n">LEFT</span><span class="p">(</span><span class="n">ProductNumber</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="n">AS</span> <span class="n">ProductType</span>
+<span class="n">FROM</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">Product</span>
+<span class="o">--</span> <span class="nb">filter</span> <span class="k">for</span> <span class="n">numeric</span> <span class="n">product</span> <span class="n">size</span> <span class="n">data</span>
+<span class="n">WHERE</span> <span class="n">ISNUMERIC</span><span class="p">(</span><span class="n">Size</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</pre></div>
+
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Wrote query that returns a list of company names with a ranking of their place in a list of highest values from table.</strong></p>
+<div class="input">
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">SELECT</span> <span class="n">CompanyName</span><span class="p">,</span> <span class="n">TotalDue</span> <span class="n">AS</span> <span class="n">Revenue</span><span class="p">,</span>
+       <span class="o">--</span> <span class="n">get</span> <span class="n">ranking and order</span> 
+       <span class="n">RANK</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">ORDER</span> <span class="n">BY</span> <span class="n">TotalDue</span> <span class="n">DESC</span><span class="p">)</span> <span class="n">AS</span> <span class="n">RankByRevenue</span>
+<span class="n">FROM</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">SalesOrderHeader</span> <span class="n">AS</span> <span class="n">SOH</span>
+<span class="o">--</span> <span class="n">join</span> <span class="n">tables</span>
+<span class="n">INNER</span> <span class="n">JOIN</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">Customer</span> <span class="n">AS</span> <span class="n">C</span>
+<span class="n">ON</span> <span class="n">SOH</span><span class="o">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">C</span><span class="o">.</span><span class="n">CustomerID</span><span class="p">;</span>
+</pre></div>
+
+<h5><u>Using Subqueries and APPLY</u></h5>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Wrote query to retrieve the product ID, name, and list price for each product where the list price is higher than the average unit price for all products that have been sold.</strong></p>
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">SELECT</span> <span class="n">ProductID</span><span class="p">,</span> <span class="n">Name</span><span class="p">,</span> <span class="n">ListPrice</span> 
+<span class="n">FROM</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">Product</span>
+<span class="o">--</span> <span class="nb">filter</span> <span class="n">based</span> <span class="n">on</span> <span class="n">ListPrice</span>
+<span class="n">WHERE</span> <span class="n">ListPrice</span> <span class="o">&gt;</span> 
+<span class="o">--</span> <span class="n">get</span> <span class="n">the</span> <span class="n">average</span> <span class="n">UnitPrice</span>
+<span class="p">(</span><span class="n">SELECT</span> <span class="n">AVG</span><span class="p">(</span><span class="n">UnitPrice</span><span class="p">)</span> <span class="n">FROM</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">SalesOrderDetail</span><span class="p">)</span>
+<span class="n">ORDER</span> <span class="n">BY</span> <span class="n">ProductID</span><span class="p">;</span>
+</pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
       </section>
       <section id="r">
         <h4>R</h4>
@@ -90,6 +179,8 @@
         <p>I enjoy applying my intradisciplinary skill set to solve real world problems. Outside of this field, I love learning languages and discussing pressing issues.</p> 
       </font>
       </div>
+
+
 
     
 
