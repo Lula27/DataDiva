@@ -153,6 +153,56 @@
 <span class="n">ORDER</span> <span class="n">BY</span> <span class="n">CA</span><span class="o">.</span><span class="n">CustomerID</span><span class="p">;</span>
 </pre></div>
 
+<h5><u>Grouping Sets & Pivoting Data</u></h5>
+<p><strong>Wrote query to include a grand total in results for all sales revenue and a subtotal for each country/region in addition to the state/province subtotals that were already returned.</strong></p>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">SELECT</span> <span class="n">a</span><span class="o">.</span><span class="n">CountryRegion</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">StateProvince</span><span class="p">,</span> <span class="n">SUM</span><span class="p">(</span><span class="n">soh</span><span class="o">.</span><span class="n">TotalDue</span><span class="p">)</span> <span class="n">AS</span> <span class="n">Revenue</span>
+<span class="n">FROM</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">Address</span> <span class="n">AS</span> <span class="n">a</span>
+<span class="n">JOIN</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">CustomerAddress</span> <span class="n">AS</span> <span class="n">ca</span>
+<span class="n">ON</span> <span class="n">a</span><span class="o">.</span><span class="n">AddressID</span> <span class="o">=</span> <span class="n">ca</span><span class="o">.</span><span class="n">AddressID</span>
+<span class="n">JOIN</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">Customer</span> <span class="n">AS</span> <span class="n">c</span>
+<span class="n">ON</span> <span class="n">ca</span><span class="o">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">CustomerID</span>
+<span class="n">JOIN</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">SalesOrderHeader</span> <span class="k">as</span> <span class="n">soh</span>
+<span class="n">ON</span> <span class="n">c</span><span class="o">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">soh</span><span class="o">.</span><span class="n">CustomerID</span>
+<span class="o">--</span> <span class="n">Modify</span> <span class="n">GROUP</span> <span class="n">BY</span> <span class="n">to</span> <span class="n">use</span> <span class="n">ROLLUP</span>
+<span class="n">GROUP</span> <span class="n">BY</span> <span class="n">ROLLUP</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">CountryRegion</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">StateProvince</span><span class="p">)</span> 
+<span class="n">ORDER</span> <span class="n">BY</span> <span class="n">a</span><span class="o">.</span><span class="n">CountryRegion</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">StateProvince</span><span class="p">;</span>
+</pre></div>
+
+<p><strong>Edited query to include a grouping for individual cities.</strong></p>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">SELECT</span> <span class="n">a</span><span class="o">.</span><span class="n">CountryRegion</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">StateProvince</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">City</span><span class="p">,</span>
+<span class="n">CHOOSE</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">GROUPING_ID</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">CountryRegion</span><span class="p">)</span> <span class="o">+</span> <span class="n">GROUPING_ID</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">StateProvince</span><span class="p">)</span> <span class="o">+</span> <span class="n">GROUPING_ID</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">City</span><span class="p">),</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">City</span> <span class="o">+</span> <span class="s1">&#39; Subtotal&#39;</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">StateProvince</span> <span class="o">+</span> <span class="s1">&#39; Subtotal&#39;</span><span class="p">,</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">CountryRegion</span> <span class="o">+</span> <span class="s1">&#39; Subtotal&#39;</span><span class="p">,</span> <span class="s1">&#39;Total&#39;</span><span class="p">)</span> <span class="n">AS</span> <span class="n">Level</span><span class="p">,</span>
+<span class="n">SUM</span><span class="p">(</span><span class="n">soh</span><span class="o">.</span><span class="n">TotalDue</span><span class="p">)</span> <span class="n">AS</span> <span class="n">Revenue</span>
+<span class="n">FROM</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">Address</span> <span class="n">AS</span> <span class="n">a</span>
+<span class="n">JOIN</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">CustomerAddress</span> <span class="n">AS</span> <span class="n">ca</span>
+<span class="n">ON</span> <span class="n">a</span><span class="o">.</span><span class="n">AddressID</span> <span class="o">=</span> <span class="n">ca</span><span class="o">.</span><span class="n">AddressID</span>
+<span class="n">JOIN</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">Customer</span> <span class="n">AS</span> <span class="n">c</span>
+<span class="n">ON</span> <span class="n">ca</span><span class="o">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">CustomerID</span>
+<span class="n">JOIN</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">SalesOrderHeader</span> <span class="k">as</span> <span class="n">soh</span>
+<span class="n">ON</span> <span class="n">c</span><span class="o">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">soh</span><span class="o">.</span><span class="n">CustomerID</span>
+<span class="n">GROUP</span> <span class="n">BY</span> <span class="n">ROLLUP</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">CountryRegion</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">StateProvince</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">City</span><span class="p">)</span>
+<span class="n">ORDER</span> <span class="n">BY</span> <span class="n">a</span><span class="o">.</span><span class="n">CountryRegion</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">StateProvince</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">City</span><span class="p">;</span>
+</pre></div>
+
+<p><strong>Wrote query to retrieve a list of customer company names together with their total revenue for each parent category in Accessories, Bikes, Clothing, and Components.</strong></p>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span>
+<span class="p">(</span><span class="n">SELECT</span> <span class="n">cat</span><span class="o">.</span><span class="n">ParentProductCategoryName</span><span class="p">,</span> <span class="n">cust</span><span class="o">.</span><span class="n">CompanyName</span><span class="p">,</span> <span class="n">sod</span><span class="o">.</span><span class="n">LineTotal</span>
+ <span class="n">FROM</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">SalesOrderDetail</span> <span class="n">AS</span> <span class="n">sod</span>
+ <span class="n">JOIN</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">SalesOrderHeader</span> <span class="n">AS</span> <span class="n">soh</span> <span class="n">ON</span> <span class="n">sod</span><span class="o">.</span><span class="n">SalesOrderID</span> <span class="o">=</span> <span class="n">soh</span><span class="o">.</span><span class="n">SalesOrderID</span>
+ <span class="n">JOIN</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">Customer</span> <span class="n">AS</span> <span class="n">cust</span> <span class="n">ON</span> <span class="n">soh</span><span class="o">.</span><span class="n">CustomerID</span> <span class="o">=</span> <span class="n">cust</span><span class="o">.</span><span class="n">CustomerID</span>
+ <span class="n">JOIN</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">Product</span> <span class="n">AS</span> <span class="n">prod</span> <span class="n">ON</span> <span class="n">sod</span><span class="o">.</span><span class="n">ProductID</span> <span class="o">=</span> <span class="n">prod</span><span class="o">.</span><span class="n">ProductID</span>
+ <span class="n">JOIN</span> <span class="n">SalesLT</span><span class="o">.</span><span class="n">vGetAllCategories</span> <span class="n">AS</span> <span class="n">cat</span> <span class="n">ON</span> <span class="n">prod</span><span class="o">.</span><span class="n">ProductcategoryID</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">ProductCategoryID</span><span class="p">)</span> <span class="n">AS</span> <span class="n">catsales</span>
+<span class="n">PIVOT</span> <span class="p">(</span><span class="n">SUM</span><span class="p">(</span><span class="n">LineTotal</span><span class="p">)</span> <span class="n">FOR</span> <span class="n">ParentProductCategoryName</span>
+<span class="n">IN</span> <span class="p">([</span><span class="n">Accessories</span><span class="p">],</span> <span class="p">[</span><span class="n">Bikes</span><span class="p">],</span> <span class="p">[</span><span class="n">Clothing</span><span class="p">],</span> <span class="p">[</span><span class="n">Components</span><span class="p">]))</span> <span class="n">AS</span> <span class="n">pivotedsales</span>
+<span class="n">ORDER</span> <span class="n">BY</span> <span class="n">CompanyName</span><span class="p">;</span>
+</pre></div>
 
 
 
