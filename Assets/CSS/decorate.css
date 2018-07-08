@@ -24,7 +24,7 @@ body, html {
 	display: block;
 	color: #f2f2f2;
 	text-align: center;
-	padding: 12px;
+	padding: 10px;
 	text-decoration: none;
 	overflow: hidden; 
 }
@@ -33,12 +33,27 @@ body, html {
 .dropdown {
 	float: left; 
 	overflow: hidden;
+	position: relative;
+	display: inline-block;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+  border: none;
+  outline: none;
+  color: white;
+  padding: 4px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
 }
 
 /*Black background for hover*/
 #navbar a:hover, .dropdown:hover {
 	background-color: black; 
 }
+
+/* Down button decoraction*/
 
 /*Dropdown content (hidden by default)*/
 .dropcontent {
@@ -50,7 +65,26 @@ body, html {
 	z-index: 1; 
 }
 
-/* Links inside */
+/* Links inside dropdown*/
+.dropcontent a {
+	float: none;
+	color: black; 
+	padding: 12px 14px; 
+	text-decoration: none;
+	display: block;
+	text-align: left;
+}
+
+/* Add grey background to dropdown links on hover*/
+.dropcontent a:hover {
+	background-color: #ddd; 
+}
+
+/* Show dropdown menu on hover */
+.dropbtn:hover .dropcontent {
+	display: block;
+}
+
 
 /* Page content */
 .content {
