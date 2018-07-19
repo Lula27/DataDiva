@@ -86,4 +86,7 @@ padding-right: 10px;
 }
 
 
-/*SQL part*/
+/* Languages div*/
+#lang {
+  padding-bottom: 50%; 
+}
